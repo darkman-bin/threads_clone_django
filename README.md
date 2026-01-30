@@ -74,3 +74,34 @@ python manage.py runserver
   ```bash
   pip install -r requirements.txt
   ```
+
+
+## نشر المشروع على Vercel (Django)
+
+### 1) ملفات جاهزة داخل المشروع
+- `vercel.json` جاهز
+- `api/index.py` كنقطة دخول لـ Vercel
+- `build_files.sh` لتجهيز المتطلبات و `collectstatic`
+
+### 2) إعدادات مهمّة (لتفادي خطأ CSRF 403)
+في Vercel افتح **Project → Settings → Environment Variables** وأضف:
+- `SECRET_KEY` = قيمة قوية
+- `DEBUG` = `0`
+- (مستحسن) `ALLOWED_HOSTS` = `your-project.vercel.app`
+- (مستحسن) `CSRF_TRUSTED_ORIGINS` = `https://your-project.vercel.app`
+
+> ملاحظة: لو تستخدم دومين مخصص، أضفه في ALLOWED_HOSTS و CSRF_TRUSTED_ORIGINS.
+
+### 3) قاعدة البيانات
+- SQLite في Vercel **غير مناسبة للإنتاج** (بدون استمرارية + مشاكل تزامن).
+- الأفضل تستخدم Postgres وتضع `DATABASE_URL`.
+  أي خدمة مثل: Vercel Postgres / Neon / Supabase.
+
+### 4) Build Command في Vercel
+من **Settings → Build & Development Settings** اجعل:
+- Build Command: `bash build_files.sh`
+
+### 5) الميجريشن
+إذا تستخدم Postgres، شغّل:
+- محلياً: `python manage.py migrate`
+- أو فعّل سطر `migrate` داخل `build_files.sh` بعد ضبط `DATABASE_URL`.
