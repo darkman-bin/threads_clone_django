@@ -11,4 +11,4 @@ python manage.py collectstatic --noinput
 # - على Vercel يفضل استخدام Postgres (DATABASE_URL)
 # - تشغيل migrate هنا يعتمد على قاعدة البيانات.
 # إذا كنت تستخدم DATABASE_URL (Postgres) وتبي الميجريشن تتم بالبيلد:
-# python manage.py migrate --noinput
+python manage.py migrate --noinput || true

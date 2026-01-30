@@ -96,6 +96,7 @@ WSGI_APPLICATION = "threader.wsgi.application"
 # للإنتاج على Vercel يُفضّل Postgres (Vercel Postgres / Neon / Supabase)
 # ضع DATABASE_URL في Environment Variables ليتم استخدامها تلقائياً.
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+IS_VERCEL = os.environ.get("VERCEL") == "1" or bool(os.environ.get("VERCEL_ENV"))
 
 if DATABASE_URL:
     import dj_database_url
@@ -107,10 +108,12 @@ if DATABASE_URL:
         )
     }
 else:
+    # SQLite للتطوير المحلي، وعلى Vercel نستخدم /tmp (نظام ملفات للقراءة/الكتابة مؤقت)
+    sqlite_name = "/tmp/db.sqlite3" if IS_VERCEL else (BASE_DIR / "db.sqlite3")
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+            "NAME": sqlite_name,
         }
     }
 
