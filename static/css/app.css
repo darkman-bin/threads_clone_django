@@ -1,0 +1,53 @@
+:root {
+  --brand-radius: 18px;
+}
+
+body {
+  font-family: Inter, "Noto Sans Arabic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.brand-mark {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  background: linear-gradient(135deg, rgba(13,110,253,.15), rgba(111,66,193,.12));
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+.thread-card {
+  border-radius: var(--brand-radius);
+}
+
+.thread-content {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.avatar-sm {
+  width: 44px;
+  height: 44px;
+}
+
+.avatar-lg {
+  width: 86px;
+  height: 86px;
+}
+
+.avatar-fallback {
+  width: 100%;
+  height: 100%;
+  background: rgba(108,117,125,.12);
+  border: 1px solid rgba(108,117,125,.18);
+  color: rgba(108,117,125,.85);
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+.btn .bi {
+  vertical-align: -0.1em;
+}

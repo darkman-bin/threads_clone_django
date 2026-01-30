@@ -1,0 +1,63 @@
+{% load static %}
+<div class="card border-0 shadow-sm mb-3 thread-card" data-thread-id="{{ thread.id }}">
+  <div class="card-body">
+    <div class="d-flex gap-3">
+      <div class="avatar-sm flex-shrink-0">
+        {% if thread.author.profile.avatar %}
+          <img src="{{ thread.author.profile.avatar.url }}" alt="avatar" class="rounded-circle w-100 h-100 object-fit-cover">
+        {% else %}
+          <div class="avatar-fallback rounded-circle d-flex align-items-center justify-content-center">
+            <i class="bi bi-person"></i>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="flex-grow-1">
+        <div class="d-flex align-items-start justify-content-between gap-2">
+          <div>
+            <a href="{% url 'profile' thread.author.username %}" class="text-decoration-none fw-bold">
+              {{ thread.author.profile.display_name|default:thread.author.username }}
+            </a>
+            <span class="text-secondary small">@{{ thread.author.username }}</span>
+            <span class="text-secondary small">· {{ thread.created_at|date:"Y-m-d H:i" }}</span>
+            {% if thread.is_reply %}
+              <span class="badge rounded-pill text-bg-secondary-subtle border small">رد</span>
+            {% endif %}
+          </div>
+
+          {% if show_link|default:True and not thread.is_reply %}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'thread_detail' thread.id %}" title="فتح الثريد">
+              <i class="bi bi-box-arrow-up-left"></i>
+            </a>
+          {% endif %}
+        </div>
+
+        <div class="mt-2 thread-content">
+          {{ thread.content|linebreaksbr }}
+        </div>
+
+        {% if thread.image %}
+          <div class="mt-2">
+            <img src="{{ thread.image.url }}" class="img-fluid rounded-3 border" alt="thread image">
+          </div>
+        {% endif %}
+
+        <div class="d-flex align-items-center gap-3 mt-3">
+          <button class="btn btn-sm btn-outline-danger js-like"
+                  data-thread-id="{{ thread.id }}"
+                  data-liked="{% if user.is_authenticated and user in thread.likes.all %}1{% else %}0{% endif %}">
+            <i class="bi {% if user.is_authenticated and user in thread.likes.all %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+            <span class="js-like-count">{{ thread.likes_count }}</span>
+          </button>
+
+          {% if not thread.is_reply %}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'thread_detail' thread.id %}">
+              <i class="bi bi-chat"></i>
+              {{ thread.replies_count }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

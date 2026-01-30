@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Threadify — مرحباً{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="p-4 p-md-5 bg-body rounded-4 shadow-sm border">
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <div class="brand-mark">
+          <i class="bi bi-chat-left-text"></i>
+        </div>
+        <div>
+          <h1 class="h3 mb-1 fw-bold">Threadify</h1>
+          <div class="text-secondary">انشر ثريدز وتفاعل مثل تويتر — مشروع جاهز للتطوير.</div>
+        </div>
+      </div>
+
+      <div class="row g-3 mt-2">
+        <div class="col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h2 class="h5 fw-bold mb-2"><i class="bi bi-lightning-charge"></i> سريع وبسيط</h2>
+              <p class="text-secondary mb-3">واجهة نظيفة، ردود، إعجابات، متابعة… وكل شيء على SQLite محلياً.</p>
+              <a class="btn btn-primary w-100" href="{% url 'register' %}">ابدأ بتسجيل حساب</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h2 class="h5 fw-bold mb-2"><i class="bi bi-shield-lock"></i> حسابات آمنة</h2>
+              <p class="text-secondary mb-3">تسجيل دخول/تسجيل وخروج باستخدام نظام Django Auth.</p>
+              <a class="btn btn-outline-primary w-100" href="{% url 'login' %}">عندي حساب — دخول</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <div class="d-flex flex-wrap gap-2 text-secondary small">
+        <span class="badge text-bg-secondary-subtle border">Django</span>
+        <span class="badge text-bg-secondary-subtle border">SQLite</span>
+        <span class="badge text-bg-secondary-subtle border">Bootstrap RTL</span>
+        <span class="badge text-bg-secondary-subtle border">AJAX Likes/Follow</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
