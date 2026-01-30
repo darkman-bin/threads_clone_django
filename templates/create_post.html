@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block content %}
+<form method="post">{% csrf_token %}
+<input name="title" class="form-control mb-2" placeholder="العنوان">
+<textarea name="body" class="form-control mb-2" placeholder="المحتوى"></textarea>
+<textarea name="code" class="form-control mb-2" placeholder="الكود"></textarea>
+<input name="code_language" class="form-control mb-2" placeholder="لغة الكود">
+<button class="btn btn-primary">نشر</button></form>{% endblock %}
