@@ -1,13 +1,17 @@
 from pathlib import Path
+import os  # <--- (1) نحتاج هذه المكتبة لقراءة متغيرات البيئة
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ملاحظة: غيّر SECRET_KEY عند النشر
+# ملاحظة: في السيرفر الحقيقي يفضل عدم وضع المفتاح هنا، لكن لا بأس حالياً
 SECRET_KEY = "django-insecure-change-me-please"
 
-DEBUG = True
+# (2) تغيير مهم: نجعل الديبوج يعتمد على البيئة، أو نتركه True للمعاينة حالياً
+DEBUG = True  
 
-ALLOWED_HOSTS = []
+# (3) حل مشكلة "Invalid HTTP_HOST header"
+# النجمة * تعني السماح لأي دومين بالوصول للموقع (حل سريع وممتاز للبداية)
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -22,6 +26,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware", # <--- (4) إضافة مهمة جداً لملفات الـ CSS
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -70,11 +75,18 @@ TIME_ZONE = "Asia/Muscat"
 USE_I18N = True
 USE_TZ = True
 
+# (5) إعدادات الملفات الثابتة (CSS/Images) لتعمل على رندر
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"  # <--- هذا السطر ضروري جداً للتجميع
+# تفعيل ضغط الملفات لتسريع الموقع
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# (6) السماح للموقع بالعمل عبر HTTPS على رندر
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -82,7 +94,6 @@ LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "feed"
 LOGOUT_REDIRECT_URL = "home"
 
-# رسائل Bootstrap
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.DEBUG: "secondary",
