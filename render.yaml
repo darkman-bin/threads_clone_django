@@ -1,6 +1,29 @@
 services:
   - type: web
-    name: devhub
+    name: threads-clone-django
     env: python
-    buildCommand: pip install -r requirements.txt && python manage.py migrate
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate --noinput || true
     startCommand: gunicorn threader.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.12
+      - key: DEBUG
+        value: "0"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: threads-clone-db
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://*.onrender.com"
+
+databases:
+  - name: threads-clone-db
+    plan: free
